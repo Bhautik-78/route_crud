@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
+import {useHistory} from "react-router";
 import {Row, Col, Card, Form, Input, InputNumber, Select, Radio, Checkbox, Button} from "antd";
 import {UserOutlined, MailOutlined, HomeOutlined, FlagOutlined, LockOutlined, MobileOutlined} from "@ant-design/icons";
 import 'antd/dist/antd.css';
+import './route.css';
 
 const SignUp = (props) => {
 
+    const history = useHistory()
     const [userDetail, setUserDetail] = useState({
         firstname: "",
         lastname: "",
@@ -55,7 +58,7 @@ const SignUp = (props) => {
             }
         }
         setData(list);
-    }, [])
+    }, [(props.match.params.id)]);
 
     const handleChange = e => {
         const {name, value} = e.target;
@@ -67,7 +70,7 @@ const SignUp = (props) => {
     }
 
     const validation = (name, value) => {
-        const emailRegx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ig;
+        const emailRegx = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/ig
         switch (name) {
             case 'firstname':
                 if (!value) {
@@ -165,7 +168,7 @@ const SignUp = (props) => {
             }
             localStorage.setItem("data", JSON.stringify(data));
             setUserDetail({})
-            props.history.push("/Users")
+            history.push("/users")
         }
     }
 
@@ -182,13 +185,13 @@ const SignUp = (props) => {
                                     <Input placeholder="Enter Your firstname" name="firstname"
                                            value={userDetail.firstname}
                                            onChange={handleChange} addonBefore={(<UserOutlined/>)}/>
-                                    <span style={{color: "red"}}>{errors.firstname}</span>
+                                    <span className="error">{errors.firstname}</span>
                                 </Form.Item>
 
                                 <Form.Item>
                                     <Input placeholder="Enter Your lastname" name="lastname" value={userDetail.lastname}
                                            onChange={handleChange} addonBefore={(<UserOutlined/>)}/>
-                                    <span style={{color: "red"}}>{errors.lastname}</span>
+                                    <span className="error">{errors.lastname}</span>
                                 </Form.Item>
 
                                 <Form.Item
@@ -197,27 +200,27 @@ const SignUp = (props) => {
                                 >
                                     <Input placeholder="Enter Your EmailId" name="email" value={userDetail.email}
                                            onChange={handleChange} addonBefore={<MailOutlined/>}/>
-                                    <span style={{color: "red"}}>{errors.email}</span>
+                                    <span className="error">{errors.email}</span>
                                 </Form.Item>
 
                                 <Form.Item>
                                     <Input placeholder="Enter Your Mobile Number" name="phone" value={userDetail.phone}
                                            onChange={handleChange} addonBefore={<MobileOutlined/>}
                                            style={{width: '100%'}}/>
-                                    <span style={{color: "red"}}>{errors.phone}</span>
+                                    <span className="error">{errors.phone}</span>
                                 </Form.Item>
 
                                 <Form.Item label="Age">
                                     <InputNumber placeholder="age" name="age" value={userDetail.age || ""}
                                                  onChange={value => handleChange({target: {name: "age", value}})}/>
-                                    <span style={{color: "red"}}>{errors.age}</span>
+                                    <span className="error">{errors.age}</span>
                                 </Form.Item>
 
                                 <Form.Item>
                                     <Input style={{width: '50%'}} placeholder="Input Address"
                                            name="address" value={userDetail.address} addonBefore={<HomeOutlined/>}
                                            onChange={handleChange}/>
-                                    <span style={{color: "red"}}>{errors.address}</span>
+                                    <span className="error">{errors.address}</span>
                                 </Form.Item>
 
                                 <Form.Item>
@@ -228,7 +231,7 @@ const SignUp = (props) => {
                                         <Radio value="female">Female</Radio>
                                         <Radio value="other">Other</Radio>
                                     </Radio.Group>
-                                    <span style={{color: "red"}}>{errors.gender}</span>
+                                    <span className="error">{errors.gender}</span>
                                 </Form.Item>
 
                                 <Form.Item label={(<FlagOutlined/>)}>
@@ -246,14 +249,14 @@ const SignUp = (props) => {
                                             </Select.Option>
                                         ))}
                                     </Select>
-                                    <span style={{color: "red"}}>{errors.country}</span>
+                                    <span className="error">{errors.country}</span>
                                 </Form.Item>
 
                                 <Form.Item>
                                     <Input.Password placeholder="Enter Your PassWord" name="password"
                                                     value={userDetail.password} onChange={handleChange}
                                                     addonBefore={(<LockOutlined/>)}/>
-                                    <span style={{color: "red"}}>{errors.password}</span>
+                                    <span className="error">{errors.password}</span>
                                 </Form.Item>
 
                                 {/*<Form.Item*/}

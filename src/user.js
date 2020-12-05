@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
+import {useHistory} from "react-router";
 import {Row, Col, Button,message,Popconfirm} from 'antd';
 import Table from "antd/lib/table";
 
 const User = (props) => {
 
+    const history = useHistory()
     let [data, setData] = useState([]);
 
     useEffect(() => {
@@ -24,13 +26,17 @@ const User = (props) => {
                 localStorage.setItem('data', JSON.stringify(filterData));
                 setData(filterData);
             }
-
     }
 
     const T = 'Are you sure to delete this task?';
 
     const onAdd = () => {
-        props.history.push(`/signUp`);
+        history.push(`/signUp`);
+    }
+
+    const onLogOut = () => {
+        localStorage.setItem("token","")
+        history.push(`/login`);
     }
 
     const columns = [
@@ -138,6 +144,7 @@ const User = (props) => {
                         pagination={{pageSize: 10}}
                         rowKey={'key'}
                     />
+                    <Button type="primary" onClick={onLogOut}>Log Out</Button>
                 </Col>
             </Row>
         </>

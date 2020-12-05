@@ -1,10 +1,12 @@
 import React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import PrivateRoute from './privatRoute'
 import signUp from "./signUp";
 import User from "./user";
 import Profile from "./prfile";
 import Login from "./login";
 import Dashboard from "./dashboard";
+import './route.css';
 
 
 const App = () => {
@@ -12,11 +14,12 @@ const App = () => {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={Login}/>
+                <Route path="/login" component={Login} />
                 <Route path="/signUp" component={signUp}/>
-                <Route path="/Users" component={User}/>
-                <Route path="/editUserDetails/:id" component={signUp}/>
-                <Route path="/dashBord" component={Dashboard} />
-                <Route path="/profile" component={Profile}/>
+                <PrivateRoute path="/users" component={User}/>
+                <PrivateRoute path="/editUserDetails/:id" component={signUp}/>
+                <PrivateRoute path="/dashBord" component={Dashboard} />
+                <PrivateRoute path="/profile" component={Profile}/>
             </Switch>
 
         </BrowserRouter>
