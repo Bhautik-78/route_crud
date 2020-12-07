@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router";
+// import axios from "axios";
 import {Row, Col, Button, message, Popconfirm, Input, Tooltip} from 'antd';
 import {UserOutlined, SearchOutlined} from "@ant-design/icons";
 import Table from "antd/lib/table";
@@ -20,6 +21,8 @@ const User = (props) => {
 
     useEffect(() => {
         let list = [];
+        // axios.get(`http://dummy.restapiexample.com/api/v1/employees/${id}`).then(res=>{console.log(res)}).catch(e=>{console.log(e)})
+        // axios.post("", )
         if (JSON.parse(localStorage.getItem("data")) !== null) {
             list = JSON.parse(localStorage.getItem("data"));
         }
@@ -57,29 +60,48 @@ const User = (props) => {
 
     const onSearch = e => {
         let searchValues = searchDetails;
-        let filterArray = []
-        const d = dublicateList.filter(record => {
-            if(searchValues.firstname){
-                filterArray = record.firstname.toLowerCase().includes(searchValues.firstname.toLowerCase())
-            }
-            if(searchValues.lastname){
-                filterArray = record.lastname.toLowerCase().includes(searchValues.lastname.toLowerCase())
-            }
-            if(searchValues.email){
-                filterArray = record.email.toLowerCase().includes(searchValues.email.toLowerCase())
-            }
-            if(searchValues.age){
-                filterArray = record.age.toString().toLowerCase().includes(searchValues.age.toLowerCase())
-            }
-            if(searchValues.address){
-                filterArray = record.address.toLowerCase().includes(searchValues.address.toLowerCase())
-            }
-            if(searchValues.gender){
-                filterArray = record.gender.toLowerCase() === searchValues.gender.toLowerCase()
-            }
-            return  filterArray
-        });
-        setData(d);
+        let row = dublicateList || []
+        if(searchValues.firstname){
+            row = row.filter(value => value.firstname.toLowerCase().includes(searchValues.firstname.toLowerCase()))
+        }
+        if(searchValues.lastname){
+            row = row.filter(value => value.lastname.toLowerCase().includes(searchValues.lastname.toLowerCase()))
+        }
+        if(searchValues.email){
+            row = row.filter(value => value.email.toLowerCase().includes(searchValues.email.toLowerCase()))
+        }
+        if(searchValues.age){
+            row = row.filter(value => value.age.toString().toLowerCase().includes(searchValues.age.toLowerCase()))
+        }
+        if(searchValues.address){
+            row = row.filter(value => value.address.toLowerCase().includes(searchValues.address.toLowerCase()))
+        }
+        if(searchValues.gender){
+            row = row.filter(value => value.gender.toLowerCase() === searchValues.gender.toLowerCase())
+        }
+        // let filterArray = []
+        // const d = dublicateList.filter(record => {
+        //     if(searchValues.firstname){
+        //         filterArray = record.firstname.toLowerCase().includes(searchValues.firstname.toLowerCase())
+        //     }
+        //     if(searchValues.lastname){
+        //         filterArray = record.lastname.toLowerCase().includes(searchValues.lastname.toLowerCase())
+        //     }
+        //     if(searchValues.email){
+        //         filterArray = record.email.toLowerCase().includes(searchValues.email.toLowerCase())
+        //     }
+        //     if(searchValues.age){
+        //         filterArray = record.age.toString().toLowerCase().includes(searchValues.age.toLowerCase())
+        //     }
+        //     if(searchValues.address){
+        //         filterArray = record.address.toLowerCase().includes(searchValues.address.toLowerCase())
+        //     }
+        //     if(searchValues.gender){
+        //         filterArray = record.gender.toLowerCase() === searchValues.gender.toLowerCase()
+        //     }
+        //     return  filterArray
+        // });
+        setData(row);
     }
 
     const columns = [
@@ -211,7 +233,7 @@ const User = (props) => {
                     <Table
                         columns={columns}
                         dataSource={data}
-                        pagination={{pageSize: 10}}
+                        pagination={{pageSize: 5}}
                         rowKey={'key'}
                     />
                     <Button type="primary" onClick={onLogOut}>Log Out</Button>
